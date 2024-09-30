@@ -1,5 +1,6 @@
 import { TerrorSource, TgenericErrorResponse } from '../interface/error';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const handleDuplicateError = (err: any): TgenericErrorResponse => {
   const errorMessages: TerrorSource = [
     {

@@ -1,6 +1,6 @@
 {
     "version": 2,
-    "name": "level-2-24-assignment-3",
+    "name": "level-2-24-assignment-6-server",
     "builds": [
        { "src": "src/server.ts", "use": "@vercel/node" }
     ],

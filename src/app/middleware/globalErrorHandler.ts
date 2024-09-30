@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ErrorRequestHandler } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import path from 'path';
-import { ZodError, ZodIssue } from 'zod';
+
+import { ZodError } from 'zod';
 import { TerrorSource } from '../interface/error';
 import config from '../config/index';
 import handleZodError from '../errors/handleZodError';
@@ -42,6 +43,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     message = simplifiedError?.message;
     errorMessages = simplifiedError?.errorMessages;
   } else if (err instanceof AppError) {
+    // eslint-disable-next-line no-unused-expressions
     (statusCode = err?.statusCode), (message = err?.message);
     errorMessages = [
       {

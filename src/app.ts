@@ -12,7 +12,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: [
-      'https://level-2-24-assignment-5-client.vercel.app',
+      'https://level-2-24-assignment-6-client.vercel.app',
       'http://localhost:5173',
     ],
     credentials: true,
