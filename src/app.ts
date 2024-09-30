@@ -20,7 +20,7 @@ app.use(
 );
 
 app.get('/', (req: Request, res: Response) => {
-  res.send('welcome to assignment 3');
+  res.send('welcome to assignment 6');
 });
 
 app.use('/api/', router);
