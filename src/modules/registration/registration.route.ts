@@ -18,4 +18,10 @@ router.post(
   userController.createUserLogin,
 );
 
+router.post(
+  '/change-password',
+  validateRequest(registerSchema.changePasswordSchema),
+  userController.changePassword,
+);
+
 export const userRouter = router;

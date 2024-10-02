@@ -1,6 +1,10 @@
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../app/errors/AppError';
-import { TLogin, TRegistration } from './registration.interface';
+import {
+  TChangePassword,
+  TLogin,
+  TRegistration,
+} from './registration.interface';
 import User from './registration.model';
 import { createToken } from '../../app/jwtToken/jwtToken';
 import config from '../../app/config';
@@ -55,7 +59,30 @@ const createUserLogin = async (payload: TLogin) => {
   };
 };
 
+const changePassword = async (payload: TChangePassword, email: string) => {
+  const { newPassword, oldPassword } = payload;
+
+  const findUser = await User.findOne({ email });
+
+  if (!findUser) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'user not found');
+  }
+
+  if (findUser?.password !== oldPassword) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'password did not matched');
+  }
+
+  const result = await User.updateOne(
+    { email },
+    { $set: { password: newPassword } },
+    { new: true },
+  );
+
+  return result;
+};
+
 export const userService = {
   createUser,
   createUserLogin,
+  changePassword,
 };
