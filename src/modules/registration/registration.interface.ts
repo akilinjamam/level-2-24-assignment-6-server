@@ -4,3 +4,8 @@ export type TRegistration = {
   password: string;
   role?: 'user' | 'admin';
 };
+
+export type TLogin = {
+  email: string;
+  password: string;
+};
