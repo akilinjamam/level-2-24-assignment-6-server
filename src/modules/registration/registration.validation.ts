@@ -21,9 +21,21 @@ const changePasswordSchema = z.object({
     newPassword: z.string().min(6, 'Password must be at least 6 characters'),
   }),
 });
+const sendRecoveryPasswordSchema = z.object({
+  body: z.object({
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+  }),
+});
+const passwordRecoverySchema = z.object({
+  body: z.object({
+    email: z.string().email('Invalid email address'),
+  }),
+});
 
 export const registerSchema = {
   registrationSchema,
   loginSchema,
   changePasswordSchema,
+  sendRecoveryPasswordSchema,
+  passwordRecoverySchema,
 };

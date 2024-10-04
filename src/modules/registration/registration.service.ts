@@ -3,11 +3,13 @@ import { AppError } from '../../app/errors/AppError';
 import {
   TChangePassword,
   TLogin,
+  TRecoveryPassword,
   TRegistration,
 } from './registration.interface';
 import User from './registration.model';
 import { createToken } from '../../app/jwtToken/jwtToken';
 import config from '../../app/config';
+import { sendEmail } from '../../app/utils/sendMail';
 
 const createUser = async (payload: TRegistration) => {
   const { email } = payload;
@@ -81,8 +83,53 @@ const changePassword = async (payload: TChangePassword, email: string) => {
   return result;
 };
 
+const passwordRecovery = async (payload: TRecoveryPassword) => {
+  const findUser = await User.findOne({ email: payload });
+
+  if (!findUser?.email) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'user not found');
+  }
+
+  const jwtPayload = {
+    email: findUser?.email,
+    role: findUser?.role as string,
+  };
+  const resetToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    '10m',
+  );
+
+  const htmlUiLink = `${config.recovery_pass_ui_link}?token=${resetToken}`;
+
+  sendEmail(findUser?.email, htmlUiLink as string);
+};
+
+const sendRecoveryPassword = async (
+  email: TRecoveryPassword,
+  payload: Record<string, unknown>,
+) => {
+  const { password } = payload;
+
+  const findUser = await User.findOne({ email: email });
+
+  if (!findUser?.email) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'user not found');
+  }
+
+  const result = await User.updateOne(
+    { email },
+    { $set: { password: password } },
+    { new: true },
+  );
+
+  return result;
+};
+
 export const userService = {
   createUser,
   createUserLogin,
   changePassword,
+  passwordRecovery,
+  sendRecoveryPassword,
 };

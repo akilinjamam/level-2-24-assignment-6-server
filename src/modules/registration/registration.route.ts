@@ -23,5 +23,15 @@ router.post(
   validateRequest(registerSchema.changePasswordSchema),
   userController.changePassword,
 );
+router.post(
+  '/password-recovery',
+  validateRequest(registerSchema.passwordRecoverySchema),
+  userController.passwordRecovery,
+);
+router.post(
+  '/send-recovery-password',
+  validateRequest(registerSchema.sendRecoveryPasswordSchema),
+  userController.sendRecoveryPassword,
+);
 
 export const userRouter = router;

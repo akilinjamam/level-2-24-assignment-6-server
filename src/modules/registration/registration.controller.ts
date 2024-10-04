@@ -3,8 +3,8 @@ import catchAsync from '../../app/utils/catchAsync';
 import sendRespone from '../../app/utils/sendRespone';
 import { userService } from './registration.service';
 import config from '../../app/config';
-import { decodeToken } from '../../app/jwtToken/decodeToken';
 import { AppError } from '../../app/errors/AppError';
+import jwt, { JwtPayload } from 'jsonwebtoken';
 
 const createUser = catchAsync(async (req, res) => {
   const result = await userService.createUser(req.body);
@@ -45,9 +45,17 @@ const changePassword = catchAsync(async (req, res) => {
     throw new AppError(StatusCodes.NOT_FOUND, 'token not found');
   }
 
-  const findEmailFromToken = decodeToken(token as string);
+  let decoded;
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+  } catch (error) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'un-authorized');
+  }
 
-  const email = findEmailFromToken?.email;
+  const email = decoded?.email;
 
   const result = await userService.changePassword(req?.body, email);
 
@@ -58,9 +66,50 @@ const changePassword = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const passwordRecovery = catchAsync(async (req, res) => {
+  const result = await userService.passwordRecovery(req?.body?.email);
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'password recovery successfully done',
+    data: result,
+  });
+});
+const sendRecoveryPassword = catchAsync(async (req, res) => {
+  const token = req?.headers?.authorization;
+
+  if (!token) {
+    throw new AppError(StatusCodes.NOT_FOUND, 'token not found');
+  }
+
+  let decoded;
+
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+  } catch (error) {
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'un-authorized');
+  }
+
+  const email = decoded?.email;
+
+  const result = await userService.sendRecoveryPassword(email, req.body);
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'password  successfully recovered',
+    data: result,
+  });
+});
 
 export const userController = {
   createUser,
   createUserLogin,
   changePassword,
+  passwordRecovery,
+  sendRecoveryPassword,
 };
