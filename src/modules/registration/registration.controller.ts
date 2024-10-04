@@ -72,7 +72,7 @@ const passwordRecovery = catchAsync(async (req, res) => {
   sendRespone(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: 'password recovery successfully done',
+    message: 'An Email has been sent to you. please check',
     data: result,
   });
 });
@@ -101,7 +101,7 @@ const sendRecoveryPassword = catchAsync(async (req, res) => {
   sendRespone(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: 'password  successfully recovered',
+    message: 'password successfully recovered',
     data: result,
   });
 });
