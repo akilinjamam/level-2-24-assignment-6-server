@@ -1,5 +1,4 @@
 import nodemailer from 'nodemailer';
-import config from '../config';
 // import config from '../config';
 
 export const sendEmail = async (to: string, html: string) => {
@@ -8,8 +7,8 @@ export const sendEmail = async (to: string, html: string) => {
     port: 587,
     secure: false, // Use `true` for port 465, `false` for all other ports
     auth: {
-      user: `${config.smtp_user}`,
-      pass: `${config.smtp_pass}`, // this password is collected from google app password
+      user: 'akilinjamam@gmail.com',
+      pass: 'ywmofaisstwayczw', // this password is collected from google app password
     },
   });
 
