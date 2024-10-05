@@ -8,8 +8,8 @@ export const sendEmail = async (to: string, html: string) => {
     port: 587,
     secure: false, // Use `true` for port 465, `false` for all other ports
     auth: {
-      user: config.smtp_user,
-      pass: config.smtp_pass, // this password is collected from google app password
+      user: `${config.smtp_user}`,
+      pass: `${config.smtp_pass}`, // this password is collected from google app password
     },
   });
 
