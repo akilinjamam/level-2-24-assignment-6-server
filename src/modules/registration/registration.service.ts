@@ -10,7 +10,7 @@ import User from './registration.model';
 import { createToken } from '../../app/jwtToken/jwtToken';
 import config from '../../app/config';
 import { sendEmail } from '../../app/utils/sendMail';
-
+// all updated....
 const createUser = async (payload: TRegistration) => {
   const { email } = payload;
 
