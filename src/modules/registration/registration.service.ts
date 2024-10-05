@@ -100,7 +100,7 @@ const passwordRecovery = async (payload: TRecoveryPassword) => {
     '10m',
   );
 
-  const htmlUiLink = `${config.recovery_pass_ui_link}/recoveryPassword?token=${resetToken}`;
+  const htmlUiLink = `https://level-2-24-assignment-6-clients.vercel.app/recoveryPassword?token=${resetToken}`;
 
   sendEmail(findUser?.email, htmlUiLink as string);
 };
