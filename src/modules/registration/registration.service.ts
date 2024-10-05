@@ -102,14 +102,7 @@ const passwordRecovery = async (payload: TRecoveryPassword) => {
 
   const htmlUiLink = `https://level-2-24-assignment-6-clients.vercel.app/recoveryPassword/user?token=${resetToken}`;
 
-  try {
-    await sendEmail(findUser?.email, htmlUiLink);
-  } catch (error) {
-    throw new AppError(
-      StatusCodes.INTERNAL_SERVER_ERROR,
-      'Failed to send recovery email',
-    );
-  }
+  sendEmail(findUser?.email, htmlUiLink);
 };
 
 const sendRecoveryPassword = async (
