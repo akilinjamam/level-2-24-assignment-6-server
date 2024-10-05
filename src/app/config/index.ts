@@ -13,4 +13,6 @@ export default {
   node_mailer_user_id: process.env.NODE_MAILER_USER_ID,
   node_mailer_password: process.env.NODE_MAILER_PASSWORD,
   recovery_pass_ui_link: process.env.RESET_PASS_UI_LINK,
+  smtp_user: process.env.SMTP_USER,
+  smtp_pass: process.env.SMTP_PASS,
 };
