@@ -100,7 +100,7 @@ const passwordRecovery = async (payload: TRecoveryPassword) => {
     '10m',
   );
 
-  const htmlUiLink = `${config.recovery_pass_ui_link}?token=${resetToken}`;
+  const htmlUiLink = `${config.recovery_pass_ui_link}/recoveryPassword?token=${resetToken}`;
 
   sendEmail(findUser?.email, htmlUiLink as string);
 };
