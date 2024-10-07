@@ -52,11 +52,11 @@ const changePassword = async (payload: TChangePassword, email: string) => {
   const findUser = await User.findOne({ email });
 
   if (!findUser) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'user not found');
+    throw new AppError(StatusCodes.OK, 'user not found');
   }
 
   if (findUser?.password !== oldPassword) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'password did not matched');
+    throw new AppError(StatusCodes.OK, 'password did not matched');
   }
 
   const result = await User.updateOne(

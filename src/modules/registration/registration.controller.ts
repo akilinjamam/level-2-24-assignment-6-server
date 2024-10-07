@@ -73,7 +73,7 @@ const changePassword = catchAsync(async (req, res) => {
   const token = req?.headers?.authorization;
 
   if (!token) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'token not found');
+    throw new AppError(StatusCodes.OK, 'token not found');
   }
 
   let decoded;
