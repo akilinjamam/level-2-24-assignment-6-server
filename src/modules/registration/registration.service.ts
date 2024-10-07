@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../app/errors/AppError';
 import {
@@ -9,6 +10,7 @@ import User from './registration.model';
 import { createToken } from '../../app/jwtToken/jwtToken';
 import config from '../../app/config';
 import { sendEmail } from '../../app/utils/sendMail';
+import { sendImageToCloudinary } from '../../app/utils/sendImgToCloudinary';
 
 const createUser = async (payload: TRegistration) => {
   const { email } = payload;
@@ -111,10 +113,34 @@ const sendRecoveryPassword = async (
   return result;
 };
 
+const updateCoverImg = async (email: string, file: any) => {
+  console.log(email);
+  console.log(file);
+
+  const findEmail = await User.findOne({ email });
+
+  if (!findEmail?.email) {
+    throw new AppError(StatusCodes.OK, 'email not found');
+  }
+
+  const img = await sendImageToCloudinary(file?.path, file?.filename);
+
+  const coverImg = img?.secure_url;
+
+  const result = await User.updateOne(
+    { email: email },
+    { $set: { coverImg: coverImg } },
+    { new: true },
+  );
+
+  return result;
+};
+
 export const userService = {
   createUser,
   createUserLogin,
   changePassword,
   passwordRecovery,
   sendRecoveryPassword,
+  updateCoverImg,
 };

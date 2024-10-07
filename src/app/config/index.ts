@@ -15,4 +15,7 @@ export default {
   recovery_pass_ui_link: process.env.RESET_PASS_UI_LINK,
   smtp_user: process.env.SMTP_USER,
   smtp_pass: process.env.SMTP_PASS,
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret_key: process.env.API_SECRET_KEY,
 };

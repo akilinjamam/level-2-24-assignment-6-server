@@ -3,6 +3,7 @@ import validateRequest from '../../app/middleware/validateSchema';
 
 import { userController } from './registration.controller';
 import { registerSchema } from './registration.validation';
+import { upload } from '../../app/utils/sendImgToCloudinary';
 
 const router = express.Router();
 
@@ -32,6 +33,11 @@ router.post(
   '/send-recovery-password',
   validateRequest(registerSchema.sendRecoveryPasswordSchema),
   userController.sendRecoveryPassword,
+);
+router.post(
+  '/update-cover-photo',
+  upload.single('coverImg'),
+  userController.updateCoverImg,
 );
 
 export const userRouter = router;
