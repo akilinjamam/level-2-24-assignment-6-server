@@ -111,7 +111,11 @@ const sendRecoveryPassword = catchAsync(async (req, res) => {
   const token = req?.headers?.authorization;
 
   if (!token) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'token not found');
+    return sendErrorRespone(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: 'token not found',
+    });
   }
 
   let decoded;
