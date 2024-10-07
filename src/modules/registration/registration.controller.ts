@@ -5,6 +5,9 @@ import { userService } from './registration.service';
 import config from '../../app/config';
 import { AppError } from '../../app/errors/AppError';
 import jwt, { JwtPayload } from 'jsonwebtoken';
+import User from './registration.model';
+import sendErrorRespone from '../../app/utils/sendErrorResponse';
+import { TRegistration } from './registration.interface';
 
 const createUser = catchAsync(async (req, res) => {
   const result = await userService.createUser(req.body);
@@ -18,9 +21,37 @@ const createUser = catchAsync(async (req, res) => {
 });
 
 const createUserLogin = catchAsync(async (req, res) => {
-  const result = await userService.createUserLogin(req.body);
+  const findUser = (await User.findOne({
+    email: req?.body?.email,
+  })) as TRegistration;
 
-  const { token, findUser } = result;
+  if (!findUser?.email) {
+    sendErrorRespone(res, {
+      success: false,
+      statusCode: StatusCodes.OK,
+      message: 'user not found',
+    });
+  }
+
+  if (!findUser?.password) {
+    sendErrorRespone(res, {
+      success: false,
+      statusCode: StatusCodes.OK,
+      message: 'password not found',
+    });
+  }
+
+  if (findUser?.password !== req?.body?.password) {
+    sendErrorRespone(res, {
+      success: false,
+      statusCode: StatusCodes.OK,
+      message: 'password did not matched',
+    });
+  }
+
+  const result = await userService.createUserLogin(findUser);
+
+  const { token, findUserInfo } = result;
 
   res.cookie('accessToken', token, {
     secure: config.NODE_ENV === 'development',
@@ -34,7 +65,7 @@ const createUserLogin = catchAsync(async (req, res) => {
     statusCode: StatusCodes.OK,
     message: 'User logged in successfully',
     token,
-    data: findUser,
+    data: findUserInfo,
   });
 });
 

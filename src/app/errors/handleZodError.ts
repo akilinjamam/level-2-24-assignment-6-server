@@ -9,7 +9,7 @@ const handleZodError = (err: ZodError): TgenericErrorResponse => {
     };
   });
 
-  const statusCode = 400;
+  const statusCode = 200;
 
   return {
     statusCode,

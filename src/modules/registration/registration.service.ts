@@ -2,7 +2,6 @@ import { StatusCodes } from 'http-status-codes';
 import { AppError } from '../../app/errors/AppError';
 import {
   TChangePassword,
-  TLogin,
   TRecoveryPassword,
   TRegistration,
 } from './registration.interface';
@@ -27,37 +26,23 @@ const createUser = async (payload: TRegistration) => {
   return result;
 };
 
-const createUserLogin = async (payload: TLogin) => {
-  const findUser = await User.findOne({ email: payload?.email });
+const createUserLogin = async (findUserInfo: TRegistration) => {
+  const jwtPayload = {
+    email: findUserInfo?.email as string,
+    role: findUserInfo?.role as string,
+  };
 
-  if (!findUser) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'user not found');
-  }
-  if (findUser?.password !== payload?.password) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'password did not match ');
-  }
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expiresIn as string,
+  );
 
-  let token;
-
-  if (findUser) {
-    const jwtPayload = {
-      email: findUser?.email as string,
-      role: findUser?.role as string,
-    };
-    const accessToken = createToken(
-      jwtPayload,
-      config.jwt_access_secret as string,
-      config.jwt_access_expiresIn as string,
-    );
-
-    token = accessToken;
-  } else {
-    throw new AppError(StatusCodes.NOT_FOUND, 'user not found ');
-  }
+  const token = accessToken;
 
   return {
     token,
-    findUser,
+    findUserInfo,
   };
 };
 
