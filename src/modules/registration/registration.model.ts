@@ -7,6 +7,18 @@ const userSchema = new Schema<TRegistration>(
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    profileImg: {
+      type: String,
+      default: 'add profile img',
+    },
+    coverImg: {
+      type: String,
+      default: 'add cover img',
+    },
+    verified: {
+      type: String,
+      default: false,
+    },
   },
   {
     timestamps: true,

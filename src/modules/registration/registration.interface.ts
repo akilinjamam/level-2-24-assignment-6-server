@@ -3,6 +3,9 @@ export type TRegistration = {
   email: string;
   password: string;
   role?: 'user' | 'admin';
+  profileImg?: string;
+  coverImg?: string;
+  verified?: boolean;
 };
 
 export type TLogin = {
