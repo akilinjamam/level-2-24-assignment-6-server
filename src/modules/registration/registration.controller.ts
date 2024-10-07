@@ -160,7 +160,38 @@ const updateCoverImg = catchAsync(async (req, res) => {
       config.jwt_access_secret as string,
     ) as JwtPayload;
   } catch (error) {
-    throw new AppError(StatusCodes.UNAUTHORIZED, 'un-authorized');
+    throw new AppError(StatusCodes.OK, 'un-authorized');
+  }
+  const email = decoded?.email;
+
+  const result = await userService.updateCoverImg(email, req.file);
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'password successfully recovered',
+    data: result,
+  });
+});
+const updateProfileImg = catchAsync(async (req, res) => {
+  const token = req?.headers?.authorization;
+
+  if (!token) {
+    return sendErrorRespone(res, {
+      statusCode: StatusCodes.OK,
+      success: false,
+      message: 'token not found',
+    });
+  }
+
+  let decoded;
+
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+  } catch (error) {
+    throw new AppError(StatusCodes.OK, 'un-authorized');
   }
   const email = decoded?.email;
 
@@ -180,4 +211,5 @@ export const userController = {
   passwordRecovery,
   sendRecoveryPassword,
   updateCoverImg,
+  updateProfileImg,
 };

@@ -39,5 +39,10 @@ router.post(
   upload.single('coverImg'),
   userController.updateCoverImg,
 );
+router.post(
+  '/update-profile-photo',
+  upload.single('profileImg'),
+  userController.updateProfileImg,
+);
 
 export const userRouter = router;

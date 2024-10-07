@@ -114,9 +114,6 @@ const sendRecoveryPassword = async (
 };
 
 const updateCoverImg = async (email: string, file: any) => {
-  console.log(email);
-  console.log(file);
-
   const findEmail = await User.findOne({ email });
 
   if (!findEmail?.email) {
@@ -135,6 +132,25 @@ const updateCoverImg = async (email: string, file: any) => {
 
   return result;
 };
+const updateProfileImg = async (email: string, file: any) => {
+  const findEmail = await User.findOne({ email });
+
+  if (!findEmail?.email) {
+    throw new AppError(StatusCodes.OK, 'email not found');
+  }
+
+  const img = await sendImageToCloudinary(file?.path, file?.filename);
+
+  const profileImg = img?.secure_url;
+
+  const result = await User.updateOne(
+    { email: email },
+    { $set: { profileImg: profileImg } },
+    { new: true },
+  );
+
+  return result;
+};
 
 export const userService = {
   createUser,
@@ -143,4 +159,5 @@ export const userService = {
   passwordRecovery,
   sendRecoveryPassword,
   updateCoverImg,
+  updateProfileImg,
 };
