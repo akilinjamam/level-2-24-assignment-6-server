@@ -9,7 +9,7 @@ import User from './registration.model';
 import { createToken } from '../../app/jwtToken/jwtToken';
 import config from '../../app/config';
 import { sendEmail } from '../../app/utils/sendMail';
-// all updated....
+
 const createUser = async (payload: TRegistration) => {
   const { email } = payload;
 
@@ -72,7 +72,7 @@ const passwordRecovery = async (payload: TRecoveryPassword) => {
   const findUser = await User.findOne({ email: payload });
 
   if (!findUser?.email) {
-    throw new AppError(StatusCodes.NOT_FOUND, 'user not found');
+    throw new AppError(StatusCodes.OK, 'user not found');
   }
 
   const jwtPayload = {
