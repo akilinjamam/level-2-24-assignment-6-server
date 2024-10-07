@@ -45,4 +45,6 @@ router.post(
   userController.updateProfileImg,
 );
 
+router.get('/get-user', userController.getUser);
+
 export const userRouter = router;

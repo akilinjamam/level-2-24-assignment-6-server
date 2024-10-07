@@ -28,6 +28,12 @@ const createUser = async (payload: TRegistration) => {
   return result;
 };
 
+const getUser = async (email: string) => {
+  console.log(email);
+  const findUser = await User.findOne({ email });
+  return findUser;
+};
+
 const createUserLogin = async (findUserInfo: TRegistration) => {
   const jwtPayload = {
     email: findUserInfo?.email as string,
@@ -160,4 +166,5 @@ export const userService = {
   sendRecoveryPassword,
   updateCoverImg,
   updateProfileImg,
+  getUser,
 };

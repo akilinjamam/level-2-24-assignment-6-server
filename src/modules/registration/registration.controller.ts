@@ -204,6 +204,34 @@ const updateProfileImg = catchAsync(async (req, res) => {
   });
 });
 
+const getUser = catchAsync(async (req, res) => {
+  const token = req?.headers?.authorization;
+  if (!token) {
+    throw new AppError(StatusCodes.OK, 'token not found');
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+  } catch (error) {
+    throw new AppError(StatusCodes.OK, 'un-authorized');
+  }
+
+  const email = decoded?.email;
+
+  const result = await userService.getUser(email);
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'user found successfully',
+    data: result,
+  });
+});
+
 export const userController = {
   createUser,
   createUserLogin,
@@ -212,4 +240,5 @@ export const userController = {
   sendRecoveryPassword,
   updateCoverImg,
   updateProfileImg,
+  getUser,
 };
