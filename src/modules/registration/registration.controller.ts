@@ -113,7 +113,7 @@ const sendRecoveryPassword = catchAsync(async (req, res) => {
   if (!token) {
     return sendErrorRespone(res, {
       statusCode: StatusCodes.OK,
-      success: true,
+      success: false,
       message: 'token not found',
     });
   }
