@@ -28,7 +28,7 @@ const createUser = async (payload: TRegistration) => {
 };
 
 const getUser = async (email: string) => {
-  const findUser = await User.findOne({ email });
+  const findUser = await User.findOne({ email }).select('-password');
   return findUser;
 };
 
