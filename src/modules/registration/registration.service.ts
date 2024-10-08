@@ -10,7 +10,6 @@ import User from './registration.model';
 import { createToken } from '../../app/jwtToken/jwtToken';
 import config from '../../app/config';
 import { sendEmail } from '../../app/utils/sendMail';
-import { sendImageToCloudinary } from '../../app/utils/sendImgToCloudinary';
 
 const createUser = async (payload: TRegistration) => {
   const { email } = payload;
@@ -29,7 +28,6 @@ const createUser = async (payload: TRegistration) => {
 };
 
 const getUser = async (email: string) => {
-  console.log(email);
   const findUser = await User.findOne({ email });
   return findUser;
 };
@@ -126,13 +124,11 @@ const updateCoverImg = async (email: string, file: any) => {
     throw new AppError(StatusCodes.OK, 'email not found');
   }
 
-  const img = await sendImageToCloudinary(file?.path, file?.filename);
-
-  const coverImg = img?.secure_url;
+  const img = file?.path;
 
   const result = await User.updateOne(
     { email: email },
-    { $set: { coverImg: coverImg } },
+    { $set: { coverImg: img } },
     { new: true },
   );
 
@@ -144,14 +140,11 @@ const updateProfileImg = async (email: string, file: any) => {
   if (!findEmail?.email) {
     throw new AppError(StatusCodes.OK, 'email not found');
   }
-
-  const img = await sendImageToCloudinary(file?.path, file?.filename);
-
-  const profileImg = img?.secure_url;
+  const img = file?.path;
 
   const result = await User.updateOne(
     { email: email },
-    { $set: { profileImg: profileImg } },
+    { $set: { profileImg: img } },
     { new: true },
   );
 
