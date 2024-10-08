@@ -195,7 +195,7 @@ const updateProfileImg = catchAsync(async (req, res) => {
   }
   const email = decoded?.email;
 
-  const result = await userService.updateCoverImg(email, req.file);
+  const result = await userService.updateProfileImg(email, req.file);
   sendRespone(res, {
     success: true,
     statusCode: StatusCodes.OK,
