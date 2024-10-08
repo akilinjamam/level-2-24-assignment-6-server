@@ -168,7 +168,7 @@ const updateCoverImg = catchAsync(async (req, res) => {
   sendRespone(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: 'password successfully recovered',
+    message: 'cover image successfully changed',
     data: result,
   });
 });
@@ -199,7 +199,7 @@ const updateProfileImg = catchAsync(async (req, res) => {
   sendRespone(res, {
     success: true,
     statusCode: StatusCodes.OK,
-    message: 'password successfully recovered',
+    message: 'profile image successfully changed',
     data: result,
   });
 });
