@@ -6,6 +6,7 @@ export type TRegistration = {
   profileImg?: string;
   coverImg?: string;
   verified?: boolean;
+  premium?: boolean;
 };
 
 export type TLogin = {

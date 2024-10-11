@@ -19,6 +19,10 @@ const userSchema = new Schema<TRegistration>(
       type: String,
       default: false,
     },
+    premium: {
+      type: String,
+      default: false,
+    },
   },
   {
     timestamps: true,
