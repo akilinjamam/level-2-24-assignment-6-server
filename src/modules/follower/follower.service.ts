@@ -6,7 +6,13 @@ const createFollower = async (payload: TFollower) => {
 
   return result;
 };
+const getFollow = async () => {
+  const result = await Follow.find().populate('id').populate('follow');
+
+  return result;
+};
 
 export const followerService = {
   createFollower,
+  getFollow,
 };
