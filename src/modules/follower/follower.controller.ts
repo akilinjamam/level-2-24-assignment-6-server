@@ -9,7 +9,7 @@ const createFollower = catchAsync(async (req, res) => {
   sendRespone(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'follower created successfully',
+    message: 'you are successfully following',
     data: result,
   });
 });
@@ -29,7 +29,7 @@ const removeFollow = catchAsync(async (req, res) => {
   sendRespone(res, {
     statusCode: StatusCodes.OK,
     success: true,
-    message: 'follow found successfully',
+    message: 'you have removed follow',
     data: result,
   });
 });
