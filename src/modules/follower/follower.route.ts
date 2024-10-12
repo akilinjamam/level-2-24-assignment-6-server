@@ -12,5 +12,6 @@ router.post(
   validateRequest(followerValidation.followingSchema),
   followerController.createFollower,
 );
+router.get('/', jwtAuth(), followerController.getFollow);
 
 export const followingRouter = router;

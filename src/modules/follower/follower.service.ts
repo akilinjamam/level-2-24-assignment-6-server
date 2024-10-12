@@ -7,7 +7,7 @@ const createFollower = async (payload: TFollower) => {
   return result;
 };
 const getFollow = async () => {
-  const result = await Follow.find().populate('id').populate('follow');
+  const result = await Follow.find().populate('id follow');
 
   return result;
 };
