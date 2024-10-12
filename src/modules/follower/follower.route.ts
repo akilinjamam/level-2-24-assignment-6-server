@@ -13,5 +13,6 @@ router.post(
   followerController.createFollower,
 );
 router.get('/', jwtAuth(), followerController.getFollow);
+router.post('/remove-follow', jwtAuth(), followerController.removeFollow);
 
 export const followingRouter = router;

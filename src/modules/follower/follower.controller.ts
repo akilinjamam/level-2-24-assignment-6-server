@@ -23,8 +23,19 @@ const getFollow = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const removeFollow = catchAsync(async (req, res) => {
+  const result = await followerService.removeFollow(req.body);
+
+  sendRespone(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'follow found successfully',
+    data: result,
+  });
+});
 
 export const followerController = {
   createFollower,
   getFollow,
+  removeFollow,
 };
