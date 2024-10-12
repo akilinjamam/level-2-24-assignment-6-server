@@ -33,9 +33,14 @@ const getUser = async (email: string) => {
 };
 
 const createUserLogin = async (findUserInfo: TRegistration) => {
+  const findUser = await User.findOne({ email: findUserInfo?.email }).select(
+    '-password',
+  );
+
   const jwtPayload = {
     email: findUserInfo?.email as string,
     role: findUserInfo?.role as string,
+    id: findUser?._id,
   };
 
   const accessToken = createToken(
