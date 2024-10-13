@@ -1,8 +1,13 @@
 import { TPosts } from './posts.interface';
 import Post from './posts.model';
 
-const createPosts = async (payload: TPosts) => {
-  const result = await Post.create(payload);
+const createPosts = async (payload: TPosts, images: string[]) => {
+  const data = {
+    ...payload,
+    images,
+  };
+
+  const result = await Post.create(data);
   return result;
 };
 

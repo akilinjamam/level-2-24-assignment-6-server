@@ -14,7 +14,8 @@ const postsSchema = z.object({
     description: z.string().min(1, 'Description is required'), // Non-empty string
     images: z
       .array(z.string().url('Must be a valid URL'))
-      .nonempty('At least one image URL is required'), // Array of valid URLs
+      .nonempty('At least one image URL is required')
+      .optional(), // Array of valid URLs
     category: z.string().min(1, 'Category is required'), // Non-empty string
   }),
 });

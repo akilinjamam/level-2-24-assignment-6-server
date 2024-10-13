@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { StatusCodes } from 'http-status-codes';
 import catchAsync from '../../app/utils/catchAsync';
 import sendRespone from '../../app/utils/sendRespone';
 import { postService } from './posts.service';
+import { TImageFiles } from './posts.constant';
 
 const createPosts = catchAsync(async (req, res) => {
-  const result = await postService.createPosts(req?.body);
+  const images = req?.files as TImageFiles;
+  const allImages = images?.images?.map((image) => image?.path);
+
+  const result = await postService.createPosts(req?.body, allImages);
 
   sendRespone(res, {
     statusCode: StatusCodes.OK,
