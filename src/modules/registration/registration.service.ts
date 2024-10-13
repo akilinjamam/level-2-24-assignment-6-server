@@ -41,6 +41,7 @@ const createUserLogin = async (findUserInfo: TRegistration) => {
     email: findUserInfo?.email as string,
     role: findUserInfo?.role as string,
     id: findUser?._id,
+    name: findUser?.name,
   };
 
   const accessToken = createToken(
