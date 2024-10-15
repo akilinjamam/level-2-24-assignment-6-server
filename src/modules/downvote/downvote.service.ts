@@ -14,7 +14,9 @@ const createDownvote = async (payload: TDownvote) => {
     );
 
   if (findUserAlreadyAvailableInDownvote) {
-    await Downvote.deleteOne({ _id: findUserAlreadyAvailableInDownvote?._id });
+    return await Downvote.deleteOne({
+      _id: findUserAlreadyAvailableInDownvote?._id,
+    });
   }
 
   const checkUpvoteExists = await Upvote.find({ upvote: payload.downvote });
