@@ -7,7 +7,7 @@ const createComment = async (payload: TComments) => {
 };
 
 const getComment = async () => {
-  const result = await Comment.find({});
+  const result = await Comment.find({}).populate('postId commenterId');
   return result;
 };
 
