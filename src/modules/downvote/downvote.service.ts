@@ -1,5 +1,3 @@
-import { StatusCodes } from 'http-status-codes';
-import { AppError } from '../../app/errors/AppError';
 import Upvote from '../upvote/upvote.model';
 import { TRemoveDownvote } from './downvote.constant';
 import { TDownvote } from './downvote.interface';
@@ -16,7 +14,7 @@ const createDownvote = async (payload: TDownvote) => {
     );
 
   if (findUserAlreadyAvailableInDownvote) {
-    throw new AppError(StatusCodes.OK, 'downvote already given');
+    await Downvote.deleteOne({ _id: findUserAlreadyAvailableInDownvote?._id });
   }
 
   const checkUpvoteExists = await Upvote.find({ upvote: payload.downvote });
