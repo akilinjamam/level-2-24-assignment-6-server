@@ -10,6 +10,7 @@ const postsSchema = new Schema<TPosts>(
     description: { type: String, required: true },
     images: { type: [String], required: true },
     category: { type: String, required: true },
+    premium: { type: Boolean, require: true, default: false },
   },
   {
     timestamps: true,
