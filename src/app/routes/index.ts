@@ -4,6 +4,7 @@ import { followingRouter } from '../../modules/follower/follower.route';
 import { postsRouter } from '../../modules/posts/posts.route';
 import { upvoteRouter } from '../../modules/upvote/upvote.route';
 import { downvoteRouter } from '../../modules/downvote/downvote.route';
+import { commentRouter } from '../../modules/comments/comments.route';
 
 const router = express.Router();
 
@@ -27,6 +28,10 @@ const moduleRoutes = [
   {
     path: '/downvote',
     route: downvoteRouter,
+  },
+  {
+    path: '/comment',
+    route: commentRouter,
   },
 ];
 
