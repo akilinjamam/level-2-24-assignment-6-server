@@ -46,6 +46,6 @@ router.post(
 );
 
 router.get('/get-user', userController.getUser);
-router.get('/get-other-user/:id', userController.getUser);
+router.get('/get-other-user/:id', userController.getOtherUser);
 
 export const userRouter = router;
