@@ -25,7 +25,7 @@ const getPosts = async (searchTearm: string) => {
 
   const result = await Post.find(search)
     .populate('userId')
-    .sort({ upvotes: -1 });
+    .sort({ upvotes: -1, createdAt: -1 });
   return result;
 };
 
