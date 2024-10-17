@@ -31,6 +31,10 @@ const getUser = async (email: string) => {
   const findUser = await User.findOne({ email }).select('-password');
   return findUser;
 };
+const getOtherUser = async (id: string) => {
+  const findUser = await User.findOne({ _id: id }).select('-password');
+  return findUser;
+};
 
 const createUserLogin = async (findUserInfo: TRegistration) => {
   const findUser = await User.findOne({ email: findUserInfo?.email }).select(
@@ -166,4 +170,5 @@ export const userService = {
   updateCoverImg,
   updateProfileImg,
   getUser,
+  getOtherUser,
 };

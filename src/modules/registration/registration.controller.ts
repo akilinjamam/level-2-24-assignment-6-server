@@ -231,6 +231,18 @@ const getUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const getOtherUser = catchAsync(async (req, res) => {
+  const id = req.params.id;
+
+  const result = await userService.getOtherUser(id);
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'user found successfully',
+    data: result,
+  });
+});
 
 export const userController = {
   createUser,
@@ -241,4 +253,5 @@ export const userController = {
   updateCoverImg,
   updateProfileImg,
   getUser,
+  getOtherUser,
 };
