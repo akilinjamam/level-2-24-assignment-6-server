@@ -9,4 +9,5 @@ export type TPosts = {
   category: string;
   premium: boolean;
   favourite: boolean;
+  upvotes: number;
 };

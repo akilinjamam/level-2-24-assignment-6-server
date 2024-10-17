@@ -1,4 +1,5 @@
 import Downvote from '../downvote/downvote.model';
+import Post from '../posts/posts.model';
 import { TRemoveUpvote } from './upvote.constant';
 import { TUpvote } from './upvote.interface';
 import Upvote from './upvote.model';
@@ -14,9 +15,23 @@ const createUpvote = async (payload: TUpvote) => {
     );
 
   if (findUserAlreadyAvailableInUpvote) {
-    return await Upvote.deleteOne({
+    await Upvote.deleteOne({
       _id: findUserAlreadyAvailableInUpvote?._id,
     });
+
+    const findUpvotesAccordingToPostIds = await Upvote?.find({
+      id: payload?.id,
+    });
+
+    const totalUpvotes = findUpvotesAccordingToPostIds?.length;
+
+    await Post.updateOne(
+      { _id: payload.id },
+      { $set: { upvotes: totalUpvotes } },
+      { runValidators: true },
+    );
+
+    return;
   }
 
   const checkDownvoteExists = await Downvote.find({ downvote: payload.upvote });
@@ -30,6 +45,15 @@ const createUpvote = async (payload: TUpvote) => {
   }
 
   const result = await Upvote.create(payload);
+
+  const totalUpvotes = checkUserAlreadyAvailableInUpvote?.length;
+
+  await Post.updateOne(
+    { _id: payload.id },
+    { $set: { upvotes: totalUpvotes } },
+    { runValidators: true },
+  );
+
   return result;
 };
 

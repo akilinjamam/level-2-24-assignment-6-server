@@ -12,6 +12,7 @@ const postsSchema = new Schema<TPosts>(
     category: { type: String, required: true },
     premium: { type: Boolean, require: true, default: false },
     favourite: { type: Boolean, require: true, default: false },
+    upvotes: { type: Number, require: true, default: 0 },
   },
   {
     timestamps: true,
