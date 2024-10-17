@@ -12,7 +12,7 @@ const createPosts = async (payload: TPosts, images: string[]) => {
 };
 
 const getPosts = async () => {
-  const result = await Post.find({}).populate('userId');
+  const result = await Post.find({}).populate('userId').sort({ upvotes: -1 });
   return result;
 };
 
