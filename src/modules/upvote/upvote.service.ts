@@ -22,7 +22,6 @@ const createUpvote = async (payload: TUpvote) => {
     const findUpvotesAccordingToPostIds = await Upvote?.find({
       id: payload?.id,
     });
-
     const totalUpvotes = findUpvotesAccordingToPostIds?.length;
 
     await Post.updateOne(
@@ -46,7 +45,11 @@ const createUpvote = async (payload: TUpvote) => {
 
   const result = await Upvote.create(payload);
 
-  const totalUpvotes = checkUserAlreadyAvailableInUpvote?.length;
+  const findUpvotesAccordingToPostIds = await Upvote?.find({
+    id: payload?.id,
+  });
+
+  const totalUpvotes = findUpvotesAccordingToPostIds?.length;
 
   await Post.updateOne(
     { _id: payload.id },
