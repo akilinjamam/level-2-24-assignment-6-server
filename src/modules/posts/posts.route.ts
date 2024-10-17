@@ -19,5 +19,6 @@ router.post(
 );
 
 router.get('/', jwtAuth(), postsController.getPosts);
+router.get('/id', jwtAuth(), postsController.favouritePosts);
 
 export const postsRouter = router;

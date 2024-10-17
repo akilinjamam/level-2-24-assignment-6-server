@@ -11,6 +11,7 @@ const postsSchema = new Schema<TPosts>(
     images: { type: [String], required: true },
     category: { type: String, required: true },
     premium: { type: Boolean, require: true, default: false },
+    favourite: { type: Boolean, require: true, default: false },
   },
   {
     timestamps: true,

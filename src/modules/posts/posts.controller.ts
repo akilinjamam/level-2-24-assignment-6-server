@@ -30,7 +30,20 @@ const getPosts = catchAsync(async (req, res) => {
   });
 });
 
+const favouritePosts = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await postService.favouritePosts(id, req.body);
+
+  sendRespone(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'post favoured successfully',
+    data: result,
+  });
+});
+
 export const postsController = {
   createPosts,
   getPosts,
+  favouritePosts,
 };

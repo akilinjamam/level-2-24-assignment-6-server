@@ -8,4 +8,5 @@ export type TPosts = {
   images: string[];
   category: string;
   premium: boolean;
+  favourite: boolean;
 };

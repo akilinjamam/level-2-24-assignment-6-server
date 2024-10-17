@@ -16,7 +16,20 @@ const getPosts = async () => {
   return result;
 };
 
+const favouritePosts = async (
+  postId: string,
+  payload: Record<string, unknown>,
+) => {
+  const result = await Post.updateOne(
+    { _id: postId },
+    { $set: payload },
+    { runValidators: true },
+  );
+  return result;
+};
+
 export const postService = {
   createPosts,
   getPosts,
+  favouritePosts,
 };
