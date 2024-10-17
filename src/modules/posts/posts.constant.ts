@@ -11,3 +11,5 @@ export type TImageFile = {
   size: number;
   filename: string;
 };
+
+export const searchableFields = ['name', 'title', 'description', 'category'];

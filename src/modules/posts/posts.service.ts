@@ -1,3 +1,4 @@
+import { searchableFields } from './posts.constant';
 import { TPosts } from './posts.interface';
 import Post from './posts.model';
 
@@ -11,8 +12,20 @@ const createPosts = async (payload: TPosts, images: string[]) => {
   return result;
 };
 
-const getPosts = async () => {
-  const result = await Post.find({}).populate('userId').sort({ upvotes: -1 });
+const getPosts = async (searchTearm: string) => {
+  let search = {};
+
+  if (searchTearm) {
+    search = {
+      $or: searchableFields.map((field) => ({
+        [field]: { $regex: searchTearm, $options: 'i' },
+      })),
+    };
+  }
+
+  const result = await Post.find(search)
+    .populate('userId')
+    .sort({ upvotes: -1 });
   return result;
 };
 
