@@ -58,9 +58,6 @@ const deletePost = catchAsync(async (req, res) => {
 const updateImg = catchAsync(async (req, res) => {
   const image = req?.file;
 
-  console.log(image?.path);
-  console.log(req?.body);
-
   const result = await postService.updateImg(image?.path as string, req?.body);
 
   sendRespone(res, {
