@@ -13,3 +13,8 @@ export type TImageFile = {
 };
 
 export const searchableFields = ['name', 'title', 'description', 'category'];
+
+export type TUpdateImageRequest = {
+  id: string;
+  index: number;
+};

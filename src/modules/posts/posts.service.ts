@@ -29,7 +29,35 @@ const getPosts = async (searchTearm: string) => {
   return result;
 };
 
+const updatePosts = async (id: string, payload: Record<string, unknown>) => {
+  const result = Post.updateOne(
+    { _id: id },
+    { $set: payload },
+    { runValidators: true },
+  );
+  return result;
+};
+
+const deletePosts = async (id: string) => {
+  const result = Post.deleteOne({ _id: id });
+  return result;
+};
+
+const updateImg = async (image: string, payload: Record<string, unknown>) => {
+  const { index, id } = payload;
+
+  const result = await Post.findByIdAndUpdate(
+    id,
+    { $set: { [`images.${index}`]: image } },
+    { new: true },
+  );
+  return result;
+};
+
 export const postService = {
   createPosts,
   getPosts,
+  updatePosts,
+  deletePosts,
+  updateImg,
 };

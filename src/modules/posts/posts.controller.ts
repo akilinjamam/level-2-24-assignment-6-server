@@ -31,7 +31,49 @@ const getPosts = catchAsync(async (req, res) => {
   });
 });
 
+const updatePost = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const result = await postService.updatePosts(id, req.body);
+
+  sendRespone(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'post updated successfully',
+    data: result,
+  });
+});
+
+const deletePost = catchAsync(async (req, res) => {
+  const id = req.params.id;
+  const result = await postService.deletePosts(id);
+
+  sendRespone(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'post deleted successfully',
+    data: result,
+  });
+});
+
+const updateImg = catchAsync(async (req, res) => {
+  const image = req?.file;
+
+  console.log(image?.path);
+  console.log(req?.body);
+
+  const result = await postService.updateImg(image?.path as string, req?.body);
+
+  sendRespone(res, {
+    statusCode: StatusCodes.OK,
+    success: true,
+    message: 'post updated successfully',
+    data: result,
+  });
+});
 export const postsController = {
   createPosts,
   getPosts,
+  updatePost,
+  deletePost,
+  updateImg,
 };
