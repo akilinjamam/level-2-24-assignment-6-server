@@ -6,6 +6,7 @@ import { upvoteRouter } from '../../modules/upvote/upvote.route';
 import { downvoteRouter } from '../../modules/downvote/downvote.route';
 import { commentRouter } from '../../modules/comments/comments.route';
 import { favouriteRouter } from '../../modules/favourite/favourite.route';
+import { paymentRouter } from '../../modules/payment/payment.router';
 
 const router = express.Router();
 
@@ -37,6 +38,10 @@ const moduleRoutes = [
   {
     path: '/favourite',
     route: favouriteRouter,
+  },
+  {
+    path: '/payment',
+    route: paymentRouter,
   },
 ];
 

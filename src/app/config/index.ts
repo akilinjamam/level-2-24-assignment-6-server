@@ -18,4 +18,7 @@ export default {
   cloud_name: process.env.CLOUD_NAME,
   api_key: process.env.API_KEY,
   api_secret_key: process.env.API_SECRET_KEY,
+  payment_api_key: process.env.PAYMENT_API_ENDPOINT,
+  store_id: process.env.STOR_ID,
+  signature_key: process.env.SIGNATURE_KEY,
 };
