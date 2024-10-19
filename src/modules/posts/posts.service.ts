@@ -1,3 +1,4 @@
+import Favourite from '../favourite/favourite.modal';
 import User from '../registration/registration.model';
 import { searchableFields } from './posts.constant';
 import { TPosts } from './posts.interface';
@@ -27,7 +28,6 @@ const getPosts = async (searchTearm: string, id: string) => {
   }
 
   let newResult;
-  console.log(findUser?.verified);
 
   if (findUser?.verified?.toString() === 'true') {
     newResult = await Post.find(search)
@@ -55,7 +55,10 @@ const updatePosts = async (id: string, payload: Record<string, unknown>) => {
 };
 
 const deletePosts = async (id: string) => {
+  await Favourite.deleteOne({ postId: id });
+
   const result = Post.deleteOne({ _id: id });
+
   return result;
 };
 
