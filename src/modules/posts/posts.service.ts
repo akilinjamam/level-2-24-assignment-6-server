@@ -27,15 +27,19 @@ const getPosts = async (searchTearm: string, id: string) => {
   }
 
   let newResult;
+  console.log(findUser?.verified);
 
   if (findUser?.verified?.toString() === 'true') {
     newResult = await Post.find(search)
       .populate('userId')
       .sort({ upvotes: -1, createdAt: -1 });
   } else {
-    newResult = await Post.find({ ...search, premium: false })
+    // console.log('hello');
+    const data = await Post.find(search)
       .populate('userId')
       .sort({ upvotes: -1, createdAt: -1 });
+
+    newResult = data?.filter((f: TPosts) => f?.premium === false);
   }
 
   return newResult;
