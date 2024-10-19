@@ -8,23 +8,34 @@ import { failedPaymentHtml, paymentHtml } from './payment.html';
 import Payment from './payment.model';
 import { TPaymentInfo } from './payment.interface';
 import User from '../registration/registration.model';
-
+import jwt, { JwtPayload } from 'jsonwebtoken';
+import config from '../../app/config';
 const makePayment = catchAsync(async (req, res) => {
   const payload: TPaymentInfo = req.body;
   const result = await Payment.create(payload);
 
   const uniqueId = uuidv4();
 
+  const token = req?.headers?.authorization;
+
+  const decoded = jwt.verify(
+    token as string,
+    config.jwt_access_secret as string,
+  ) as JwtPayload;
+
+  const { email, name } = decoded;
+
   const data: TPaymentRequest = {
     tran_id: uniqueId,
-    cus_name: 'akil',
-    cus_email: 'akil@gmail.com',
-    cus_add1: 'xyz',
+    cus_name: name,
+    cus_email: email,
+    cus_add1: 'chittagong',
     cus_city: 'chittagong',
     cus_state: 'chittagong',
     cus_country: 'Bangladesh',
     cus_phone: '123456789',
     userId: payload.userId,
+    amount: '100',
   };
 
   const returnValue = await paymentInitialization(data);
@@ -33,7 +44,6 @@ const makePayment = catchAsync(async (req, res) => {
     result,
     url: returnValue?.data?.payment_url,
   };
-  // console.log(returnValue?.data?.payment_url);
 
   sendRespone(res, {
     statusCode: StatusCodes.OK,

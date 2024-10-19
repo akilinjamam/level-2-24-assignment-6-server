@@ -8,7 +8,7 @@ const objectIdSchema = z.string().refine((val) => Types.ObjectId.isValid(val), {
 const paymentSchema = z.object({
   body: z.object({
     userId: objectIdSchema,
-    paid: z.boolean(),
+    paid: z.boolean().optional(),
   }),
 });
 

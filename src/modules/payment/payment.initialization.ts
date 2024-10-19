@@ -11,7 +11,7 @@ export const paymentInitialization = async (data: TPaymentRequest) => {
       success_url: `https://level-2-24-assignment-6-server.vercel.app/api/payment/confirm-payment?userId=${data?.userId}`,
       fail_url: `https://level-2-24-assignment-6-server.vercel.app/api/payment/failed-payment?userId=${data?.userId}`,
       cancel_url: `https://level-2-24-assignment-6-server.vercel.app/api/payment/failed-payment?userId=${data?.userId}`,
-      amount: '10.0',
+      amount: data?.amount,
       currency: 'BDT',
       signature_key: config.signature_key,
       desc: 'Merchant Registration Payment',
