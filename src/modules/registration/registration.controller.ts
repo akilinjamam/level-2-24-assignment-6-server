@@ -288,7 +288,11 @@ const updateUser = catchAsync(async (req, res) => {
     throw new AppError(StatusCodes.OK, 'un-authorized');
   }
 
-  console.log(decoded);
+  const checkAdmin = await User.findOne({ _id: decoded?.id });
+
+  if (checkAdmin?.role !== 'admin') {
+    throw new AppError(StatusCodes.OK, 'sorry you are not admin');
+  }
 
   const id = req.params.id;
 

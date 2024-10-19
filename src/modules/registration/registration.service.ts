@@ -49,12 +49,6 @@ const getOtherUser = async (id: string) => {
 };
 
 const updateUser = async (id: string, payload: Record<string, unknown>) => {
-  const findUser = await User.findOne({ _id: id }).select('-password');
-
-  if (findUser?.role !== 'admin') {
-    throw new AppError(StatusCodes.OK, 'sorry you are not Admin ');
-  }
-
   const result = await User.updateOne(
     { _id: id },
     { $set: payload },
