@@ -4,6 +4,9 @@ import catchAsync from '../../app/utils/catchAsync';
 import sendRespone from '../../app/utils/sendRespone';
 import { postService } from './posts.service';
 import { TImageFiles } from './posts.constant';
+import { JwtPayload } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
+import config from '../../app/config';
 
 const createPosts = catchAsync(async (req, res) => {
   const images = req?.files as TImageFiles;
@@ -20,8 +23,25 @@ const createPosts = catchAsync(async (req, res) => {
 });
 
 const getPosts = catchAsync(async (req, res) => {
+  const token = req?.headers?.authorization;
+
+  if (!token) {
+    return sendRespone(res, {
+      success: false,
+      statusCode: StatusCodes.OK,
+      message: 'TOKEN not found',
+    });
+  }
+
+  const decoded = jwt.verify(
+    token,
+    config.jwt_access_secret as string,
+  ) as JwtPayload;
+
+  const { id } = decoded;
+
   const { searchTerm } = req.query;
-  const result = await postService.getPosts(searchTerm as string);
+  const result = await postService.getPosts(searchTerm as string, id);
 
   sendRespone(res, {
     statusCode: StatusCodes.OK,

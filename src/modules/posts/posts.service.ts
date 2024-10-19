@@ -1,3 +1,4 @@
+import User from '../registration/registration.model';
 import { searchableFields } from './posts.constant';
 import { TPosts } from './posts.interface';
 import Post from './posts.model';
@@ -12,8 +13,10 @@ const createPosts = async (payload: TPosts, images: string[]) => {
   return result;
 };
 
-const getPosts = async (searchTearm: string) => {
+const getPosts = async (searchTearm: string, id: string) => {
   let search = {};
+
+  const findUser = await User.findOne({ _id: id });
 
   if (searchTearm) {
     search = {
@@ -23,10 +26,19 @@ const getPosts = async (searchTearm: string) => {
     };
   }
 
-  const result = await Post.find(search)
-    .populate('userId')
-    .sort({ upvotes: -1, createdAt: -1 });
-  return result;
+  let newResult;
+
+  if (findUser?.verified?.toString() === 'true') {
+    newResult = await Post.find(search)
+      .populate('userId')
+      .sort({ upvotes: -1, createdAt: -1 });
+  } else {
+    newResult = await Post.find({ ...search, premium: false })
+      .populate('userId')
+      .sort({ upvotes: -1, createdAt: -1 });
+  }
+
+  return newResult;
 };
 
 const updatePosts = async (id: string, payload: Record<string, unknown>) => {
