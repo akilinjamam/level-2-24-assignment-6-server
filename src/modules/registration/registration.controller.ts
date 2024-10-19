@@ -231,6 +231,34 @@ const getUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
+const getAllUser = catchAsync(async (req, res) => {
+  const token = req?.headers?.authorization;
+  if (!token) {
+    throw new AppError(StatusCodes.OK, 'token not found');
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+  } catch (error) {
+    throw new AppError(StatusCodes.OK, 'un-authorized');
+  }
+
+  const id = decoded?.id;
+
+  const result = await userService.getAllUser(id);
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'user found successfully',
+    data: result,
+  });
+});
 const getOtherUser = catchAsync(async (req, res) => {
   const id = req.params.id;
 
@@ -254,4 +282,5 @@ export const userController = {
   updateProfileImg,
   getUser,
   getOtherUser,
+  getAllUser,
 };

@@ -31,6 +31,18 @@ const getUser = async (email: string) => {
   const findUser = await User.findOne({ email }).select('-password');
   return findUser;
 };
+
+const getAllUser = async (id: string) => {
+  const findUser = await User.findOne({ _id: id }).select('-password');
+
+  if (findUser?.role !== 'admin') {
+    throw new AppError(StatusCodes.OK, 'sorry you are not Admin ');
+  }
+
+  const result = await User.find({}).select('-password');
+
+  return result;
+};
 const getOtherUser = async (id: string) => {
   const findUser = await User.findOne({ _id: id }).select('-password');
   return findUser;
@@ -172,4 +184,5 @@ export const userService = {
   updateProfileImg,
   getUser,
   getOtherUser,
+  getAllUser,
 };
