@@ -48,6 +48,21 @@ const getOtherUser = async (id: string) => {
   return findUser;
 };
 
+const updateUser = async (id: string, payload: Record<string, unknown>) => {
+  const findUser = await User.findOne({ _id: id }).select('-password');
+
+  if (findUser?.role !== 'admin') {
+    throw new AppError(StatusCodes.OK, 'sorry you are not Admin ');
+  }
+
+  const result = await User.updateOne(
+    { _id: id },
+    { $set: payload },
+    { runValidators: true },
+  );
+  return result;
+};
+
 const createUserLogin = async (findUserInfo: TRegistration) => {
   const findUser = await User.findOne({ email: findUserInfo?.email }).select(
     '-password',
@@ -185,4 +200,5 @@ export const userService = {
   getUser,
   getOtherUser,
   getAllUser,
+  updateUser,
 };

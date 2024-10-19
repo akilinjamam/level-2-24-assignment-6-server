@@ -272,6 +272,36 @@ const getOtherUser = catchAsync(async (req, res) => {
   });
 });
 
+const updateUser = catchAsync(async (req, res) => {
+  const token = req?.headers?.authorization;
+  if (!token) {
+    throw new AppError(StatusCodes.OK, 'token not found');
+  }
+
+  let decoded;
+  try {
+    decoded = jwt.verify(
+      token,
+      config.jwt_access_secret as string,
+    ) as JwtPayload;
+  } catch (error) {
+    throw new AppError(StatusCodes.OK, 'un-authorized');
+  }
+
+  console.log(decoded);
+
+  const id = req.params.id;
+
+  const result = await userService.updateUser(id, req?.body);
+
+  sendRespone(res, {
+    success: true,
+    statusCode: StatusCodes.OK,
+    message: 'user updated successfully',
+    data: result,
+  });
+});
+
 export const userController = {
   createUser,
   createUserLogin,
@@ -283,4 +313,5 @@ export const userController = {
   getUser,
   getOtherUser,
   getAllUser,
+  updateUser,
 };
