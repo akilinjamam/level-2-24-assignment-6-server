@@ -7,6 +7,7 @@ import { TPaymentRequest } from './payment.constant';
 import { failedPaymentHtml, paymentHtml } from './payment.html';
 import Payment from './payment.model';
 import { TPaymentInfo } from './payment.interface';
+import User from '../registration/registration.model';
 
 const makePayment = catchAsync(async (req, res) => {
   const payload: TPaymentInfo = req.body;
@@ -52,6 +53,12 @@ const confirmPayment = catchAsync(async (req, res) => {
       { $set: { paid: true } },
       { runValidators: true },
     );
+
+    await User.updateOne(
+      { _id: findPaymentId?.userId },
+      { $set: { verified: true } },
+      { runValidators: true },
+    );
   }
 
   res.send(paymentHtml);
@@ -63,6 +70,11 @@ const failedPayment = catchAsync(async (req, res) => {
 
   if (findPaymentId?._id) {
     await Payment.deleteOne({ _id: findPaymentId?._id });
+    await User.updateOne(
+      { _id: findPaymentId?.userId },
+      { $set: { verified: false } },
+      { runValidators: true },
+    );
   }
 
   res.send(failedPaymentHtml);
